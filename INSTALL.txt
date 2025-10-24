@@ -1,0 +1,43 @@
+コンパイル環境：
+MacOSX 10.9.5
+qt 5.4.2
+fftw 3.3.4_1
+libsvm/3.20
+
+手順：
+1. brewを使ってQtをインストール
+2. brewを使ってfftwをインストール
+3. brewを使ってlibsvmをインストール
+4. stethos-aif.proを以下の様に記述
+================================
+TEMPLATE = app
+TARGET = stethos-aif
+QT += core gui multimedia serialport opengl network
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+LIBS += -L/usr/local/opt/fftw/lib -L/usr/local/opt/libsvm/lib -lfftw3f -lsvm
+INCLUDEPATH += /usr/local/opt/fftw/include /usr/local/opt/libsvm/include
+
+SOURCES += main.cpp\
+        mainwindow.cpp \
+    svmclassifier.cpp \
+    activeacousticsensor.cpp \
+    trainlabel.cpp \
+    plotter.cpp
+
+HEADERS  += mainwindow.h \
+    svmclassifier.h \
+    activeacousticsensor.h \
+    trainlabel.h \
+    plotter.h
+
+RESOURCES += \
+    resource.qrc
+================================
+※LIBSとINCLUDEPATHについては実際にfftwとlibsvmとがインストールされているディレクトリに書き換える
+
+5. /usr/local/opt/qt5/bin/qmake
+  この結果Makefileが生成される
+6. make
+
+以上
